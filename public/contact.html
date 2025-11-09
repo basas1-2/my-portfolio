@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contact — Sanni Muhammed Arafat</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="light">
+  <header class="site-header">
+    <div class="container">
+      <h1 class="brand">Contact</h1>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="#contact-form">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container section">
+    <h2>Get in touch</h2>
+    <p>Fill the form below — messages will be saved and emailed to the site owner.</p>
+
+    <form id="contact-form">
+      <label>
+        Name
+        <input type="text" name="name" id="name" required />
+      </label>
+
+      <label>
+        Email
+        <input type="email" name="email" id="email" required />
+      </label>
+
+      <label>
+        Subject
+        <input type="text" name="subject" id="subject" placeholder="Subject (optional)" />
+      </label>
+
+      <label>
+        Message
+        <textarea name="message" id="message" rows="6" required></textarea>
+      </label>
+
+      <button type="submit" class="btn">Send message</button>
+      <p id="status" role="status" aria-live="polite"></p>
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© {2025} Sanni Muhammed Arafat</p>
+    </div>
+  </footer>
+
+  <script>
+  document.getElementById('contact-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const statusEl = document.getElementById('status');
+    statusEl.textContent = 'Sending...';
+
+    const payload = {
+      name: document.getElementById('name').value,
+      email: document.getElementById('email').value,
+      subject: document.getElementById('subject').value,
+      message: document.getElementById('message').value
+    };
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (data.success) {
+        statusEl.textContent = 'Message sent — thank you!';
+        document.getElementById('contact-form').reset();
+      } else {
+        statusEl.textContent = 'Could not send message. ' + (data.message || '');
+      }
+    } catch (err) {
+      statusEl.textContent = 'Network error: ' + err.message;
+    }
+  });
+  </script>
+</body>
+</html>
