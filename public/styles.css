@@ -30,3 +30,7 @@ form button { margin-top:.8rem; }
 @media (max-width:600px) {
   .site-header .container { padding:1rem; flex-direction:column; align-items:flex-start; gap:.6rem; }
 }
+.as{
+  margin-left: 20px;
+  background:var(--card); padding:1rem; border-radius:12px; box-shadow: 0 6px 18px rgba(12,18,36,0.03);
+}
